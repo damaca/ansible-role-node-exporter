@@ -1,0 +1,45 @@
+---
+# tasks file for node_exporter
+- name: Copy node_exporter binay
+  copy:
+    src: node_exporter
+    dest: /usr/sbin/node_exporter
+    mode: 0755
+
+- name: Ensure config dir exists
+  file:
+    path: "{{node_exporter_config_file | dirname}}"
+    state: directory
+
+- name: Ensure log dir exists
+  file:
+    path: "{{node_exporter_log_dir}}"
+    state: directory
+
+- name: Copy node_exporter config file
+  template:
+    src: node_exporter.j2
+    dest: "{{node_exporter_config_file}}"
+    mode: 0644 
+  register: ca_cf_cp
+
+- name: Copy node_exporter systemd script
+  template:
+    src: node_exporter.service.j2
+    dest: /usr/lib/systemd/system/node_exporter.service
+    mode: 0644
+  register: ca_sd_cp
+
+- name: Make a link to /etc/systemd/system/multi-user.target.wants/node_exporter.service
+  file:
+    src: /usr/lib/systemd/system/node_exporter.service
+    dest: /etc/systemd/system/multi-user.target.wants/node_exporter.service
+    state: link
+    
+- name: Start service
+  systemd:
+    name: node_exporter
+    enabled: yes
+    state: restarted
+    daemon_reload: "{{ca_sd_cp.changed}}"
+  when: ca_cf_cp.changed or ca_sd_cp.changed

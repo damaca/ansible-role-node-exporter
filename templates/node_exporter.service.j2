@@ -1,0 +1,10 @@
+[Unit]
+Description=Node exporter
+
+[Service]
+User=root
+EnvironmentFile={{node_exporter_config_file}}
+ExecStart=/usr/sbin/node_exporter $OPTIONS
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,1 @@
+OPTIONS="-collector.procfs /proc -collector.sysfs /sys -collector.filesystem.ignored-mount-points ^/(sys|proc|dev|host|etc)($$|/) -web.listen-address {% if node_exporter_listen_ip is defined %}{{node_exporter_listen_ip}}{% endif %}:{{node_exporter_port}} -log.format 'logger:syslog?appname=node_exporter&local=7'"

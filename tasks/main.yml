@@ -1,0 +1,3 @@
+---
+# tasks file for node_exporter
+- include: install.yml
