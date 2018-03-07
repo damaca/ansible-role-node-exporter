@@ -11,11 +11,6 @@
     path: "{{node_exporter_config_file | dirname}}"
     state: directory
 
-- name: Ensure log dir exists
-  file:
-    path: "{{node_exporter_log_dir}}"
-    state: directory
-
 - name: Copy node_exporter config file
   template:
     src: node_exporter.j2

@@ -1,5 +1,4 @@
 ---
 # defaults file for node_exporter
 node_exporter_config_file: /etc/sysconfig/node_exporter 
-node_exporter_log_dir: /var/log/node_exporter
 node_exporter_port: 9100
